@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -83,8 +82,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(data["items"]).encode())
 
 # Set up and start the HTTP server
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
-    server_address = ('', port)
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
+    port = int(os.environ.get('PORT', 8000))  # Use PORT env variable or default to 8000
+    server_address = ('0.0.0.0', port)
     httpd = server_class(server_address, handler_class)
     print(f'Starting server on port {port}...')
     httpd.serve_forever()
